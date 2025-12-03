@@ -8,9 +8,7 @@ const userRouter = express.Router();
 // Local Module
 const { registeredHomes } = require('./hostRouter');
 
-userRouter.get("/", (req, res, next) => {
-  console.log(registeredHomes);
-  res.render('home', {registeredHomes: registeredHomes, pageTitle: 'airbnb Home'});
-});
+userRouter.get("/",
+);
 
 module.exports = userRouter;
