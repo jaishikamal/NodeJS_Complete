@@ -8,7 +8,7 @@ const express = require("express");
 const userRouter = require("./routes/userRouter");
 const { hostRouter } = require("./routes/hostRouter");
 const rootDir = require("./util/path");
-const hostController = require("./Controller/home");
+const hostController = require("./Controller/Error");
 
 const app = express();
 
