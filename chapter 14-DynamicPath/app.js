@@ -28,7 +28,7 @@ app.use(express.static(path.join(rootDir, "public")));
 // 404 Page
 app.use(errorsController.pageNotFound);
 
-const PORT = 3001;
+const PORT = 3002;
 app.listen(PORT, () => {
   console.log(`Server running on address http://localhost:${PORT}`);
 });
