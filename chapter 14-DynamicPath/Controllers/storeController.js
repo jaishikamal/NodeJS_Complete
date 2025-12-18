@@ -37,6 +37,10 @@ exports.getFavouriteList = (req, res, next) => {
     })
   );
 };
+exports.postAddToFavourite = (req, res, next) => {
+  console.log(req.body)
+  res.redirect("/favourites");
+}
 exports.getHomeDetails = (req, res, next) => {
   const homeId = req.params.homeId;
   console.log(homeId);
