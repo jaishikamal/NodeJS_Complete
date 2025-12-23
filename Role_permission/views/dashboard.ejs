@@ -1,0 +1,77 @@
+<%-
+  include('layout', {
+    title: 'Dashboard',
+    body: `
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h3 class="card-title mb-3">Dashboard</h3>
+              <div id="alert" class="alert d-none" role="alert"></div>
+              <p><strong>User:</strong> <span id="userEmail"></span></p>
+              <p><strong>Roles:</strong> <span id="userRoles"></span></p>
+              <button id="checkAdmin" class="btn btn-outline-primary me-2">
+                Check Admin Dashboard
+              </button>
+              <button id="logout" class="btn btn-outline-danger">
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        const alertBox = document.getElementById('alert');
+        const userEmail = document.getElementById('userEmail');
+        const userRoles = document.getElementById('userRoles');
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+          window.location.href = '/login';
+        } else {
+          fetch('/api/profile', {
+            headers: {
+              Authorization: 'Bearer ' + token,
+            },
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (!data.success) throw new Error(data.message);
+              userEmail.textContent = data.user.email;
+              userRoles.textContent = (data.user.roles || []).join(', ') || '-';
+            })
+            .catch((err) => {
+              alertBox.textContent = err.message;
+              alertBox.className = 'alert alert-danger';
+            });
+        }
+
+        document.getElementById('checkAdmin').addEventListener('click', () => {
+          fetch('/api/admin/dashboard', {
+            headers: {
+              Authorization: 'Bearer ' + token,
+            },
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (!data.success) throw new Error(data.message);
+              alertBox.textContent = data.message;
+              alertBox.className = 'alert alert-success';
+            })
+            .catch((err) => {
+              alertBox.textContent = err.message;
+              alertBox.className = 'alert alert-danger';
+            });
+        });
+
+        document.getElementById('logout').addEventListener('click', () => {
+          localStorage.removeItem('token');
+          window.location.href = '/login';
+        });
+      </script>
+    `,
+  });
+%>
+
+
